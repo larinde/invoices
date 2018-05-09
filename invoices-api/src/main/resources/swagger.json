@@ -1,0 +1,390 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Invoice API",
+    "version": "v1"
+  },
+  "host": "localhost:3000",
+  "basePath": "/accounting/{version}",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "definitions": {
+    "invoice": {
+      "description": "An invoice presentation",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "invoiceType": {
+          "enum": [
+            "purchase",
+            "sales"
+          ],
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "frontImage": {
+          "type": "string"
+        },
+        "backImage": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "date",
+        "country",
+        "invoiceType"
+      ]
+    },
+    "invoices": {
+      "type" : "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items":{
+        "$ref": "#/definitions/invoice"
+      }
+    },
+    "newinvoice": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "frontImage": {
+          "type": "string"
+        },
+        "backImage": {
+          "type": "string"
+        },
+        "invoiceType": {
+          "enum": [
+            "purchase",
+            "sales"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "country",
+        "invoiceType"
+      ]
+    },
+    "partialinvoice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "frontImage": {
+          "type": "string"
+        },
+        "backImage": {
+          "type": "string"
+        },
+        "invoiceType": {
+          "enum": [
+            "purchase",
+            "sales"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "ErrorMessageResponse": {
+      "description": "Error response message",
+      "properties": {
+        "code": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "correlationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "correlationId",
+        "code",
+        "description"
+      ],
+      "type": "object"
+    }
+
+  },
+  "parameters": {
+    "trait:paged:start": {
+      "description": "The first page of results to return",
+      "type": "number",
+      "in": "query",
+      "name": "start",
+      "required": true
+    },
+    "trait:paged:page": {
+      "description": "The number of pages of results to return",
+      "type": "number",
+      "in": "query",
+      "name": "page",
+      "required": true
+    },
+    "trait:secured:Authorization": {
+      "description": "The auth token for this request",
+      "type": "string",
+      "in": "header",
+      "name": "Authorization",
+      "required": true
+    },
+    "trait:additionalHeader:invoice-api-version": {
+      "required": true,
+      "description": "The API version",
+      "type": "string",
+      "in": "header",
+      "name": "invoice-api-version"
+    }
+  },
+  "responses": {
+    "trait:secured:401": {
+      "description": "Unauthorized",
+      "schema": {
+        "$ref": "#/definitions/ErrorMessageResponse"
+      }
+    }
+  },
+  "paths": {
+    "/invoices": {
+      "get": {
+        "operationId": "GET_invoices",
+        "responses": {
+          "200": {
+            "description": "A list of invoices",
+            "examples": {
+              "application/json": [
+                {
+                  "id": "1",
+                  "date": "12062015",
+                  "country": "DE",
+                  "frontImage": "SW52b2ljZU51bWJlcjoxMjM0NTYNCkNvbXBhbnk6S293ZWcgQW1vdW50OjM3LjUx",
+                  "backImage": "",
+                  "invoiceType": "sales"
+                },
+                {
+                  "id": "2",
+                  "date": "31032016",
+                  "country": "UK",
+                  "frontImage": "SW52b2ljZU51bWJlcjoxMjM0NTYNCkNvbXBhbnk6S293ZWcgQW1vdW50OjM3LjUx",
+                  "backImage": "",
+                  "invoiceType": "purchase"
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/invoices"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/trait:secured:401"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/trait:secured:Authorization"
+          },
+          {
+            "$ref": "#/parameters/trait:additionalHeader:invoice-api-version"
+          },
+          {
+            "required": true,
+            "description": "Filter invoices by start date range",
+            "type": "string",
+            "in": "query",
+            "name": "fromDate"
+          },
+          {
+            "description": "Filter invoices by end date range",
+            "type": "string",
+            "in": "query",
+            "name": "toDate"
+          },
+          {
+            "description": "Filter invoices by type. Either sales or purchase type",
+            "type": "string",
+            "in": "query",
+            "name": "invoiceType",
+            "required": true
+          }
+        ]
+      },
+      "post": {
+        "operationId": "POST_invoices",
+        "responses": {
+          "204": {
+            "description": "Invoice successfully created"
+          },
+          "401": {
+            "$ref": "#/responses/trait:secured:401"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/trait:secured:Authorization"
+          },
+          {
+            "$ref": "#/parameters/trait:additionalHeader:invoice-api-version"
+          },
+          {
+            "schema": {
+              "example": {
+                "id": "3",
+                "date": "07052016",
+                "country": "UK",
+                "frontImage": "SW52b2ljZU51bWJlcjoxMjM0NTYNCkNvbXBhbnk6S293ZWcgQW1vdW50OjM3LjUx
+",
+                "backImage": "",
+                "invoiceType": "sales"
+              },
+              "$ref": "#/definitions/invoice"
+            },
+            "in": "body",
+            "name": "body"
+          }
+        ]
+      }
+    },
+    "/{invoiceId}": {
+      "get": {
+        "operationId": "GET_invoiceId",
+        "responses": {
+          "200": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "id": "3",
+                "date": "31042016",
+                "country": "UK",
+                "frontImage": "SW52b2ljZU51bWJlcjoxMjM0NTYNCkNvbXBhbnk6S293ZWcgQW1vdW50OjM3LjUx
+",
+                "backImage": "",
+                "invoiceType": "sales"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/invoice"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/trait:secured:401"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/trait:secured:Authorization"
+          },
+          {
+            "$ref": "#/parameters/trait:additionalHeader:invoice-api-version"
+          }
+        ]
+      },
+      "put": {
+        "operationId": "PUT_invoiceId",
+        "responses": {
+          "200": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "id": "3",
+                "date": "31042016",
+                "country": "UK",
+                "frontImage": "SW52b2ljZU51bWJlcjoxMjM0NTYNCkNvbXBhbnk6S293ZWcgQW1vdW50OjM3LjUx
+",
+                "backImage": "",
+                "invoiceType": "sales"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/partialinvoice"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/trait:secured:401"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/trait:secured:Authorization"
+          },
+          {
+            "$ref": "#/parameters/trait:additionalHeader:invoice-api-version"
+          },
+          {
+            "schema": {
+              "example": {
+                "country": "DE",
+                "invoiceType": "purchase"
+              },
+              "$ref": "#/definitions/partialinvoice"
+            },
+            "in": "body",
+            "name": "body"
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "DELETE_invoiceId",
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/responses/trait:secured:401"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/trait:secured:Authorization"
+          },
+          {
+            "$ref": "#/parameters/trait:additionalHeader:invoice-api-version"
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "in": "path",
+          "name": "invoiceId",
+          "required": true
+        }
+      ]
+    }
+  }
+}
