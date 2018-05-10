@@ -16,6 +16,8 @@
 
   <modules>
     <module>invoices-api</module>
+    <module>invoices-wso2-esb-config</module>
+    <module>invoices-wso2-car</module>
   </modules>
 
     <dependencyManagement>
