@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy name="invoices-api-proxy" startOnLoad="true" trace="disable"
+  transports="https http" xmlns="http://ws.apache.org/ns/synapse">
+  <target>
+    <endpoint name="endpoint_urn_uuid_641b3a05-b9de-4076-b7ab-de5c562ae8d8">
+      <address trace="disable" uri="http://localhost:8888/accounting/v1"/>
+    </endpoint>
+    <inSequence>
+      <log description="log" level="custom">
+        <property name="MESSAGE" value="invoking invoice service"/>
+      </log>
+    </inSequence>
+    <outSequence>
+      <send/>
+    </outSequence>
+    <faultSequence/>
+  </target>
+</proxy>
