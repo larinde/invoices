@@ -45,6 +45,20 @@
 
 
   "definitions": {
+    "AmountType":{
+      "type": "object",
+      "properties":{
+        "amount":{
+          "format": "double",
+          "type": "number"
+        },
+        "curr":{
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 3
+        }
+      }
+    },
     "invoice": {
       "description": "An invoice presentation",
       "type": "object",
@@ -54,6 +68,9 @@
         },
         "date": {
           "type": "string"
+        },
+        "amount": {
+          "$ref": "#/definitions/AmountType"
         },
         "invoiceType": {
           "enum": [
@@ -75,6 +92,7 @@
       "required": [
         "id",
         "date",
+        "amount",
         "country",
         "invoiceType"
       ]
