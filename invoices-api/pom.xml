@@ -6,9 +6,9 @@
     <artifactId>invoices</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-<!--   <groupId>com.koweg.invoices</groupId> -->
+
   <artifactId>invoices-api</artifactId>
-<!--   <version>1.0.0-SNAPSHOT</version> -->
+  <!-- <version>1.0.0-SNAPSHOT</version> -->
   <name>invoices-api</name>
 
   <properties>
@@ -21,12 +21,13 @@
     <dependency>
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
-      <version>${jackson.version}</version>
+      <!-- <version>${jackson.version}</version> -->
     </dependency>
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
+      <!-- <version>3.1.0</version> -->
       <scope>provided</scope>
     </dependency>
 
@@ -36,22 +37,22 @@
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet-core</artifactId>
-      <version>${jersey.version}</version>
+      <!-- <version>${jersey.version}</version> -->
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-multipart</artifactId>
-      <version>${jersey.version}</version>
+      <!-- <version>${jersey.version}</version> -->
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-joda</artifactId>
-      <version>${jackson.version}</version>
+      <!-- <version>${jackson.version}</version> -->
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
-      <version>${jackson.version}</version>
+      <!-- <version>${jackson.version}</version> -->
     </dependency>
     <dependency>
       <groupId>javax.ws.rs</groupId>
@@ -73,13 +74,12 @@
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
-      <version>2.9.9</version>
+      <!-- <version>2.9.9</version> -->
     </dependency>
     <!-- Bean Validation API support -->
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
-      <version>1.1.0.Final</version>
       <scope>provided</scope>
     </dependency>
 
@@ -91,7 +91,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.0.0</version>
         <executions>
           <execution>
             <id>add-gen-source</id>
@@ -104,32 +103,32 @@
                 <source>target/generated-sources/swagger/src/gen/java</source>
               </sources>
               <sources>
-              <source>target/generated-sources/swagger/src/main/java</source>
+                <source>target/generated-sources/swagger/src/main/java</source>
               </sources>
             </configuration>
           </execution>
         </executions>
       </plugin>
 
-<!--       <plugin> -->
-<!--         <groupId>io.swagger</groupId> -->
-<!--         <artifactId>swagger-codegen-maven-plugin</artifactId> -->
-<!--         <version>2.3.1</version> -->
-<!--         <executions> -->
-<!--           <execution> -->
-<!--             <goals> -->
-<!--               <goal>generate</goal> -->
-<!--             </goals> -->
-<!--             <configuration> -->
-<!--               <inputSpec>${basedir}/src/main/resources/swagger.json</inputSpec> -->
-<!--               <language>jaxrs</language> -->
-<!--               <output>${project.build.directory}/generated-sources/swagger</output> -->
-<!--               <apiPackage>${generated.api.code.package}.handler</apiPackage> -->
-<!--               <modelPackage>${generated.api.code.package}.model</modelPackage> -->
-<!--             </configuration> -->
-<!--           </execution> -->
-<!--         </executions> -->
-<!--       </plugin> -->
+      <!-- <plugin> -->
+      <!-- <groupId>io.swagger</groupId> -->
+      <!-- <artifactId>swagger-codegen-maven-plugin</artifactId> -->
+      <!-- <version>2.3.1</version> -->
+      <!-- <executions> -->
+      <!-- <execution> -->
+      <!-- <goals> -->
+      <!-- <goal>generate</goal> -->
+      <!-- </goals> -->
+      <!-- <configuration> -->
+      <!-- <inputSpec>${basedir}/src/main/resources/swagger.json</inputSpec> -->
+      <!-- <language>jaxrs</language> -->
+      <!-- <output>${project.build.directory}/generated-sources/swagger</output> -->
+      <!-- <apiPackage>${generated.api.code.package}.handler</apiPackage> -->
+      <!-- <modelPackage>${generated.api.code.package}.model</modelPackage> -->
+      <!-- </configuration> -->
+      <!-- </execution> -->
+      <!-- </executions> -->
+      <!-- </plugin> -->
 
     </plugins>
   </build>
